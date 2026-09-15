@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Unsealed Archives | Investigative Portal</title>
+  
+  <!-- Serif and Sans-serif Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for visual indicators -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-primary: #0f1115;
+      --bg-secondary: #161920;
+      --bg-card: #1c2029;
+      --bg-card-hover: #232834;
+      --border-color: #2e3440;
+      --border-accent: #3b4252;
+      
+      --text-primary: #eceff4;
+      --text-secondary: #adbac7;
+      --text-muted: #768390;
+      
+      --accent-gold: #c9a227;
+      --accent-gold-light: #e5c158;
+      --accent-red: #d08770;
+      --accent-blue: #5e81ac;
+      
+      --font-headline: 'Merriweather', serif;
+      --font-brand: 'Cinzel', serif;
+      --font-body: 'Inter', sans-serif;
+      
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+      --transition-standard: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8f9fa;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f3f5;
+      --border-color: #e9ecef;
+      --border-accent: #dee2e6;
+      
+      --text-primary: #1a1d20;
+      --text-secondary: #495057;
+      --text-muted: #868e96;
+      
+      --accent-gold: #9e7a10;
+      --accent-gold-light: #b89118;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    .ticker-bar {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      padding: 0.5rem 0;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ticker-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ticker-badge {
+      background-color: var(--accent-gold);
+      color: #0f1115;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 2px;
+      margin-right: 0.75rem;
+      font-size: 0.7rem;
+    }
+
+    .header-masthead {
+      border-bottom: 2px solid var(--border-accent);
+      padding: 2rem 0 1.5rem 0;
+      background: var(--bg-secondary);
+    }
+
+    .masthead-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .site-branding {
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .site-title {
+      font-family: var(--font-brand);
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .site-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: var(--transition-standard);
+    }
+
+    .btn-theme-toggle:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .btn-substack-main {
+      background: var(--accent-gold);
+      color: #0f1115;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-standard);
+    }
+
+    .btn-substack-main:hover {
+      background: var(--accent-gold-light);
+      transform: translateY(-1px);
+    }
+
+    /* Primary Navigation */
+    .nav-bar {
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-list {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.75rem 0;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: var(--transition-standard);
+      padding-bottom: 0.25rem;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent-gold);
+      border-bottom-color: var(--accent-gold);
+    }
+
+    .hero-section {
+      padding: 2.5rem 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr;
+      gap: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-content {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .meta-tag {
+      display: inline-block;
+      color: var(--accent-gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-headline);
+      font-size: 2.1rem;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .hero-excerpt {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-sidebar {
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-color);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-heading {
+      font-family: var(--font-brand);
+      font-size: 1.1rem;
+      border-bottom: 2px solid var(--accent-gold);
+      padding-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sidebar-item {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-item-title {
+      font-family: var(--font-headline);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: var(--transition-standard);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-item-title:hover {
+      color: var(--accent-gold);
+    }
+
+    .sidebar-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .filter-section {
+      margin: 1.5rem 0 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .section-headline {
+      font-family: var(--font-brand);
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition-standard);
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .article-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-standard);
+    }
+
+    .article-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-accent);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    .card-title {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      line-height: 1.35;
+      margin-bottom: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    .card-excerpt {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+      margin-top: auto;
+    }
+
+    .read-link {
+      color: var(--accent-gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: var(--transition-standard);
+    }
+
+    .read-link:hover {
+      color: var(--accent-gold-light);
+      gap: 0.6rem;
+    }
+
+    .evidence-drawer {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .evidence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1.5rem;
+    }
+
+    .evidence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .evidence-item {
+      padding: 0.85rem 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: var(--transition-standard);
+    }
+
+    .evidence-item.active, .evidence-item:hover {
+      border-color: var(--accent-gold);
+      background: var(--bg-card);
+      color: var(--accent-gold);
+    }
+
+    .evidence-preview {
+      background: var(--bg-primary);
+      border: 1px dashed var(--border-accent);
+      padding: 1.5rem;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      position: relative;
+    }
+
+    .evidence-stamp {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      border: 2px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 0.2rem 0.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      transform: rotate(5deg);
+      opacity: 0.7;
+    }
+
+    .cta-container {
+      background: linear-gradient(135deg, #1c2029 0%, #161920 100%);
+      border: 1px solid var(--accent-gold);
+      border-radius: 6px;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-bottom: 4rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-title {
+      font-family: var(--font-brand);
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .cta-description {
+      max-width: 650px;
+      margin: 0 auto 1.75rem auto;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .cta-form {
+      display: flex;
+      justify-content: center;
+      max-width: 480px;
+      margin: 0 auto;
+      gap: 0.5rem;
+    }
+
+    .cta-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    .cta-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-sidebar {
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+      }
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .masthead-flex {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .cta-form {
+        flex-direction: column;
+      }
+      .site-title {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <!-- Ticker Bar -->
+  <div class="ticker-bar">
+    <div class="container ticker-content">
+      <div>
+        <span class="ticker-badge">LIVE ARCHIVE</span>
+        <span>Unsealed Court Records & Key Filings Directory</span>
+      </div>
+      <div>
+        <span>Updated: Sept 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editorial Masthead -->
+  <header class="header-masthead">
+    <div class="container masthead-flex">
+      <a href="#" class="site-branding">
+        <h1 class="site-title">The Unsealed Dossiers</h1>
+        <p class="site-subtitle">Independent Journalistic Records & Analysis</p>
+      </a>
+      <div class="header-actions">
+        <button class="btn-theme-toggle" id="themeToggle" title="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="https://substack.com" target="_blank" rel="noopener" class="btn-substack-main">
+          <i class="fa-solid fa-envelope"></i> Read on Substack
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="container">
+      <ul class="nav-list">
+        <li><a href="#" class="nav-link active">All Filings</a></li>
+        <li><a href="#" class="nav-link">Flight Logs</a></li>
+        <li><a href="#" class="nav-link">Financial Networks</a></li>
+        <li><a href="#" class="nav-link">Depositions</a></li>
+        <li><a href="#" class="nav-link">Court Orders</a></li>
+        <li><a href="#" class="nav-link">About Project</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    
+    <!-- Hero Lead Investigation Section -->
+    <section class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div>
+            <span class="meta-tag"><i class="fa-solid fa-fire"></i> Primary Investigation</span>
+            <h2 class="hero-title">Anatomy of an Unsealing: Mapping the Key Entities Across 2,000 Pages</h2>
+            <p class="hero-excerpt">
+              Our comprehensive breakdown cross-references newly released court exhibits, financial ledgers, and witness testimonies. Read the full investigation detailing institutional oversights and paper trails.
+            </p>
+          </div>
+          <div class="hero-footer">
+            <span><i class="fa-regular fa-clock"></i> 14 min read &bull; Published Yesterday</span>
+            <a href="https://substack.com" target="_blank" rel="noopener" class="read-link">
+              Read Full Report on Substack <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-sidebar">
+          <h3 class="sidebar-heading">Key Breakdowns</h3>
+          <ul class="sidebar-list">
+            <li class="sidebar-item">
+              <a href="https://substack.com" class="sidebar-item-title">Exhibits 401-415: Unraveling the Offshore Entities</a>
+              <span class="sidebar-meta">Financial Analysis &bull; 8 min</span>
+            </li>
+            <li class="sidebar-item">
+              <a href="https://substack.com" class="sidebar-item-title">The Palm Beach Search Warrant Inventory Revisited</a>
+              <span class="sidebar-meta">Evidence Log &bull; 5 min</span>
+            </li>
+            <li class="sidebar-item">
+              <a href="https://substack.com" class="sidebar-item-title">Cross-Examining the 2016 Depositions</a>
+              <span class="sidebar-meta">Legal Breakdown &bull; 11 min</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter & Filter Controls Bar -->
+    <div class="filter-section">
+      <h3 class="section-headline">Archive Index</h3>
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="filterArticles('all')">All</button>
+        <button class="tab-btn" onclick="filterArticles('investigations')">Investigations</button>
+        <button class="tab-btn" onclick="filterArticles('documents')">Document Audits</button>
+        <button class="tab-btn" onclick="filterArticles('timeline')">Timelines</button>
+      </div>
+    </div>
+
+    <!-- Secondary Articles Grid -->
+    <section class="articles-grid" id="articlesGrid">
+      
+      <!-- Article 1 -->
+      <article class="article-card" data-category="documents">
+        <div>
+          <div class="card-meta">
+            <span class="meta-tag">Document Audit</span>
+            <span style="color: var(--text-muted)">Sept 12, 2026</span>
+          </div>
+          <h4 class="card-title">Flight Manifest Discrepancies: A Comparative Analysis</h4>
+          <p class="card-excerpt">Reconciling pilot logs with newly submitted court testimony exhibits reveals key missing dates between 2002 and 2005.</p>
+        </div>
+        <div class="card-action">
+          <span style="font-size: 0.75rem; color: var(--text-muted);">6 min read</span>
+          <a href="https://substack.com" target="_blank" rel="noopener" class="read-link">Read on Substack <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="article-card" data-category="investigations">
+        <div>
+          <div class="card-meta">
+            <span class="meta-tag">Investigation</span>
+            <span style="color: var(--text-muted)">Sept 08, 2026</span>
+          </div>
+          <h4 class="card-title">The Real Estate Holdings & Corporate Shell Network</h4>
+          <p class="card-excerpt">A structural mapping of shell corporations linked to property transfers across New York, New Mexico, and the U.S. Virgin Islands.</p>
+        </div>
+        <div class="card-action">
+          <span style="font-size: 0.75rem; color: var(--text-muted);">10 min read</span>
+          <a href="https://substack.com" target="_blank" rel="noopener" class="read-link">Read on Substack <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="article-card" data-category="timeline">
+        <div>
+          <div class="card-meta">
+            <span class="meta-tag">Timeline</span>
+            <span style="color: var(--text-muted)">Aug 29, 2026</span>
+          </div>
+          <h4 class="card-title">Chronology of the 2007 Non-Prosecution Agreement</h4>
+          <p class="card-excerpt">A step-by-step interactive timeline detailing correspondence between legal teams and federal prosecutors.</p>
+        </div>
+        <div class="card-action">
+          <span style="font-size: 0.75rem; color: var(--text-muted);">15 min read</span>
+          <a href="https://substack.com" target="_blank" rel="noopener" class="read-link">Read on Substack <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Interactive Document Preview Drawer -->
+    <section class="evidence-drawer">
+      <div class="evidence-header">
+        <div>
+          <span class="meta-tag"><i class="fa-solid fa-folder-open"></i> Primary Source Inspector</span>
+          <h3 style="font-family: var(--font-brand); font-size: 1.25rem; margin-top: 0.25rem;">Direct Document Preview</h3>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Inspect excerpts before reading analysis</span>
+      </div>
+      <div class="evidence-grid">
+        <div class="evidence-list">
+          <div class="evidence-item active" onclick="loadDoc(0, this)">
+            <strong>Exhibit 104-B</strong>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">Flight Log Redactions Excerpt</p>
+          </div>
+          <div class="evidence-item" onclick="loadDoc(1, this)">
+            <strong>Motion Entry 882</strong>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">Unsealing Protocol Directive</p>
+          </div>
+          <div class="evidence-item" onclick="loadDoc(2, this)">
+            <strong>Financial Audit Line 40</strong>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">Trust Account Wire Transfer Log</p>
+          </div>
+        </div>
+        <div class="evidence-preview" id="docPreviewBox">
+          <div class="evidence-stamp">CONFIDENTIAL / UNSEALED</div>
+          <div id="docText">
+            [EXHIBIT 104-B - EXTRACTED RECORD]<br>
+            DATE: 14-MAY-2002<br>
+            AIRCRAFT: N908JE<br><br>
+            PASSENGER MANIFEST REDACTION RECORD:<br>
+            1. [REDACTED - RULE 26(c)]<br>
+            2. VIRGINIA GIUFFRE<br>
+            3. GHISLAINE MAXWELL<br>
+            4. [REDACTED - PENDING COURT ORDER]<br><br>
+            NOTES: Flight originating from Teterboro (TEB) to Palm Beach (PBI). Fuel manifest verified by air traffic audit log #8932.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Substack Newsletter Subscription Section -->
+    <section class="cta-container">
+      <h3 class="cta-title">Receive Immediate Investigation Updates</h3>
+      <p class="cta-description">
+        We release comprehensive document breakdowns, primary source analysis, and chronological archives directly to your inbox via Substack.
+      </p>
+      <form class="cta-form" action="https://substack.com" method="get" target="_blank">
+        <input type="email" placeholder="Enter your email address..." class="cta-input" required>
+        <button type="submit" class="btn-substack-main" style="border: none; cursor: pointer;">
+          Subscribe Free
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-flex">
+      <div>
+        <strong style="font-family: var(--font-brand); color: var(--text-primary); font-size: 1rem;">THE UNSEALED DOSSIERS</strong>
+        <p style="margin-top: 0.25rem;">Neocities Investigative Hub &bull; Hosted Public Archives</p>
+      </div>
+      <div>
+        <p>Published via <a href="https://substack.com" target="_blank" rel="noopener" style="color: var(--accent-gold); text-decoration: none;">Substack</a> & <a href="https://medium.com" target="_blank" rel="noopener" style="color: var(--accent-gold); text-decoration: none;">Medium</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Logic JavaScript -->
+  <script>
+    // Light/Dark Theme Switcher Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const bodyElement = document.body;
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = bodyElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      bodyElement.setAttribute('data-theme', newTheme);
+      themeToggleBtn.innerHTML = newTheme === 'dark' 
+        ? '<i class="fa-solid fa-moon"></i>' 
+        : '<i class="fa-solid fa-sun"></i>';
+    });
+
+    // Category Filtering Script
+    function filterArticles(category) {
+      const cards = document.querySelectorAll('#articlesGrid .article-card');
+      const tabs = document.querySelectorAll('.tab-btn');
+
+      // Update Active Tab Button
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Show/Hide Articles with Fade Logic
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Interactive Document Inspector Content Data
+    const documentsData = [
+      `[EXHIBIT 104-B - EXTRACTED RECORD]
+DATE: 14-MAY-2002
+AIRCRAFT: N908JE
+
+PASSENGER MANIFEST REDACTION RECORD:
+1. [REDACTED - RULE 26(c)]
+2. VIRGINIA GIUFFRE
+3. GHISLAINE MAXWELL
+4. [REDACTED - PENDING COURT ORDER]
+
+NOTES: Flight originating from Teterboro (TEB) to Palm Beach (PBI). Fuel manifest verified by air traffic audit log #8932.`,
+
+      `[MOTION ENTRY 882 - JUDICIAL ORDER]
+DISTRICT COURT SOUTHERN DISTRICT OF NEW YORK
+
+ORDER REGARDING UNSEALING OF DEPOSITION EXHIBITS:
+"The Court finds that public interest in transparency outweighs confidentiality claims for non-party witness statements under Exhibit C."
+
+STATUS: APPROVED FOR PUBLIC DISCLOSURE`,
+
+      `[FINANCIAL AUDIT RECORD - LINE 40]
+ACCOUNT ID: ********8821 (ST. THOMAS TRUST)
+DATE: 11-NOV-2011
+
+TRANSACTION TYPE: Wire Outgoing ($1,250,000.00 USD)
+RECIPIENT: Financial Services LLC (Cayman Islands)
+MEMO: Consultation Fees - Deferred Agreement`
+    ];
+
+    function loadDoc(index, element) {
+      const previewBox = document.getElementById('docText');
+      const items = document.querySelectorAll('.evidence-item');
+      
+      items.forEach(item => item.classList.remove('active'));
+      element.classList.add('active');
+      
+      previewBox.innerText = documentsData[index];
+    }
+  </script>
+</body>
+</html>
