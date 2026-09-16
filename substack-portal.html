@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal | Substack Hub</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a1a;
+      --card-bg: #ffffff;
+      --card-border: #e0e0e0;
+      --accent: #ff6719;
+      --header-overlay: rgba(0,0,0,0.45);
+      --footer-bg: #1a1a1a;
+      --footer-text: #ccc;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+      --bg: #0f0f0f;
+      --text: #e8e8e8;
+      --card-bg: #1c1c1c;
+      --card-border: #333;
+      --accent: #ff8c42;
+      --header-overlay: rgba(0,0,0,0.55);
+      --footer-bg: #0a0a0a;
+      --footer-text: #999;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+}
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+}
+
+    /* Header with background image */
+.header {
+      position: relative;
+      height: 280px;
+      background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+}
+
+.header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--header-overlay);
+}
+
+.header-content {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      padding: 0 20px;
+}
+
+.header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+.header p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto;
+}
+
+    /* Theme toggle */
+.theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 50px;
+      padding: 8px 14px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+}
+
+.theme-toggle:hover {
+      background: rgba(255,255,255,0.25);
+}
+
+    /* Main content */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      width: 100%;
+}
+
+.section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-align: center;
+}
+
+    /* Article grid - 9 windows */
+.article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+}
+
+.article-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+}
+
+.article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.article-thumb {
+      height: 150px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: rgba(255,255,255,0.85);
+}
+
+.article-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+}
+
+.article-body h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      line-height: 1.35;
+}
+
+.article-body p {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      flex: 1;
+}
+
+.article-meta {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-top: 12px;
+}
+
+    /* Subscribe section */
+.subscribe-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+}
+
+.subscribe-section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+}
+
+.subscribe-section > p {
+      opacity: 0.75;
+      margin-bottom: 24px;
+}
+
+    /* Placeholder for Substack embed - replace with your real embed */
+.substack-embed {
+      max-width: 480px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+}
+
+.substack-embed iframe {
+      width: 100%;
+      height: 320px;
+      border: none;
+      display: block;
+}
+
+    /* Fallback subscribe form (visual placeholder) */
+.subscribe-fallback {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto;
+}
+
+.subscribe-fallback input {
+      padding: 14px 16px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+}
+
+.subscribe-fallback button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+}
+
+.subscribe-fallback button:hover {
+      opacity: 0.9;
+}
+
+    /* Footer */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+}
+
+    footer .site-name {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+}
+
+    footer .links {
+      margin: 12px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+}
+
+    footer a {
+      color: var(--footer-text);
+      text-decoration: none;
+      transition: color 0.2s;
+}
+
+    footer a:hover {
+      color: var(--accent);
+}
+
+    footer .copy {
+      margin-top: 16px;
+      opacity: 0.7;
+      font-size: 0.85rem;
+}
+
+    /* Responsive */
+    @media (max-width: 600px) {
+.header {
+        height: 220px;
+}
+
+.article-grid {
+        grid-template-columns: 1fr;
+}
+
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+      <span id="themeIcon">☀️</span>
+      <span id="themeLabel">Light</span>
+    </button>
+    <div class="header-content">
+      <h1>Your Portal Name</h1>
+      <p>Curated windows into our latest writing on Substack</p>
+    </div>
+  </header>
+  <main>
+    <h2 class="section-title">Latest Articles</h2>
+    <div class="article-grid" id="articleGrid">
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-1" target="_blank" rel="noopener">
+        <div class="article-thumb">📖</div>
+        <div class="article-body">
+          <h3>Article Title One</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Sep 10 · 6 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-2" target="_blank" rel="noopener">
+        <div class="article-thumb">✨</div>
+        <div class="article-body">
+          <h3>Article Title Two</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Sep 8 · 4 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-3" target="_blank" rel="noopener">
+        <div class="article-thumb">🔥</div>
+        <div class="article-body">
+          <h3>Article Title Three</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Sep 5 · 8 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-4" target="_blank" rel="noopener">
+        <div class="article-thumb">💡</div>
+        <div class="article-body">
+          <h3>Article Title Four</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Sep 2 · 5 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-5" target="_blank" rel="noopener">
+        <div class="article-thumb">🌊</div>
+        <div class="article-body">
+          <h3>Article Title Five</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Aug 28 · 7 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-6" target="_blank" rel="noopener">
+        <div class="article-thumb">🚀</div>
+        <div class="article-body">
+          <h3>Article Title Six</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Aug 25 · 3 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-7" target="_blank" rel="noopener">
+        <div class="article-thumb">🎯</div>
+        <div class="article-body">
+          <h3>Article Title Seven</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Aug 20 · 9 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-8" target="_blank" rel="noopener">
+        <div class="article-thumb">🌙</div>
+        <div class="article-body">
+          <h3>Article Title Eight</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Aug 15 · 5 min</div>
+        </div>
+      </a>
+      <a class="article-card" href="https://yourpublication.substack.com/p/article-9" target="_blank" rel="noopener">
+        <div class="article-thumb">⚡</div>
+        <div class="article-body">
+          <h3>Article Title Nine</h3>
+          <p>Short teaser or excerpt that invites the reader to click through.</p>
+          <div class="article-meta">Aug 10 · 6 min</div>
+        </div>
+      </a>
+    </div>
+
+    <section class="subscribe-section">
+      <h2>Subscribe to the newsletter</h2>
+      <p>Get new posts delivered straight to your inbox.</p>
+      <div class="substack-embed">
+        <iframe
+          src="https://yourpublication.substack.com/embed"
+          width="480"
+          height="320"
+          style="border:1px solid #EEE; background:white;"
+          frameborder="0"
+          scrolling="no">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="site-name">Your Portal Name</div>
+    <div class="links">
+      <a href="https://yourpublication.substack.com" target="_blank" rel="noopener">Substack</a>
+      <a href="#">About</a>
+      <a href="#">Archive</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="copy">© 2025 Your Portal Name. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    const root = document.documentElement;
+
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('portal-theme', theme);
+      if (theme === 'dark') {
+        icon.textContent = '☀️';
+        label.textContent = 'Light';
+      } else {
+        icon.textContent = '🌙';
+        label.textContent = 'Dark';
+      }
+    }
+
+    // Default is now dark; only override if user has explicitly saved light
+    const saved = localStorage.getItem('portal-theme');
+    setTheme(saved === 'light' ? 'light' : 'dark');
+
+    toggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>
